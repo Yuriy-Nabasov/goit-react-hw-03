@@ -15,14 +15,20 @@ import { Analytics } from "@vercel/analytics/react";
 // import Feedback from "../Feedback/Feedback";
 import "./App.css";
 
-function App() {
+export default function App() {
   const [contacts, setContacts] = useState(initialContacts);
+  const [myFilter, setMyFilter] = useState("");
 
   const deleteContact = (contactId) => {
     setContacts((prevContacts) => {
       return prevContacts.filter((contact) => contact.id !== contactId);
     });
   };
+
+  const visibleContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(myFilter.toLocaleLowerCase())
+  );
+
   // const [data, setData] = useState(() => {
   //   const savedData = localStorage.getItem("feedbackData");
   //   return savedData ? JSON.parse(savedData) : { good: 0, neutral: 0, bad: 0 };
@@ -51,8 +57,8 @@ function App() {
       <Container>
         <Heading title="Phonebook" bottom tag={`h1`} />
         <ContactForm />
-        <SearchBox />
-        <ContactList contact={contacts} onDelete={deleteContact} />
+        <SearchBox value={myFilter} onFilter={setMyFilter} />
+        <ContactList contacts={visibleContacts} onDelete={deleteContact} />
         {/* <Description />
         <Options update={updateFeedback} totalFeedback={totalFeedback} />
         {totalFeedback === 0 ? (
@@ -66,4 +72,4 @@ function App() {
   );
 }
 
-export default App;
+// export default App;
