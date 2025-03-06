@@ -9,15 +9,17 @@ import initialContacts from "../contactData.json";
 
 import { Analytics } from "@vercel/analytics/react";
 
-// import Description from "../Description/Description";
-// import Options from "../Options/Options";
-// import Notification from "../Notification/Notification";
-// import Feedback from "../Feedback/Feedback";
 import "./App.css";
 
 export default function App() {
   const [contacts, setContacts] = useState(initialContacts);
   const [myFilter, setMyFilter] = useState("");
+
+  const addContact = (newContact) => {
+    setContacts((prevContacts) => {
+      return [...prevContacts, newContact];
+    });
+  };
 
   const deleteContact = (contactId) => {
     setContacts((prevContacts) => {
@@ -29,47 +31,15 @@ export default function App() {
     contact.name.toLowerCase().includes(myFilter.toLocaleLowerCase())
   );
 
-  // const [data, setData] = useState(() => {
-  //   const savedData = localStorage.getItem("feedbackData");
-  //   return savedData ? JSON.parse(savedData) : { good: 0, neutral: 0, bad: 0 };
-  // });
-
-  // const totalFeedback = data.good + data.neutral + data.bad;
-
-  // const updateFeedback = (key) => {
-  //   setData((prevData) => {
-  //     if (key === "reset") {
-  //       return { good: 0, neutral: 0, bad: 0 };
-  //     }
-  //     return {
-  //       ...prevData,
-  //       [key]: prevData[key] + 1,
-  //     };
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   localStorage.setItem("feedbackData", JSON.stringify(data));
-  // }, [data]);
-
   return (
     <Section>
       <Container>
         <Heading title="Phonebook" bottom tag={`h1`} />
-        <ContactForm />
+        <ContactForm onAdd={addContact} />
         <SearchBox value={myFilter} onFilter={setMyFilter} />
         <ContactList contacts={visibleContacts} onDelete={deleteContact} />
-        {/* <Description />
-        <Options update={updateFeedback} totalFeedback={totalFeedback} />
-        {totalFeedback === 0 ? (
-          <Notification />
-        ) : (
-          <Feedback data={data} totalFeedback={totalFeedback} />
-        )} */}
         <Analytics />
       </Container>
     </Section>
   );
 }
-
-// export default App;
