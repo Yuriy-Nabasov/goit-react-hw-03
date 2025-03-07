@@ -6,13 +6,13 @@ import ContactForm from "../ContactForm/ContactForm";
 import SearchBox from "../SearchBox/SearchBox";
 import ContactList from "../ContactList/ContactList";
 import initialContacts from "../contactData.json";
+import Notification from "../Notification/Notification";
 
 import { Analytics } from "@vercel/analytics/react";
 
 import "./App.css";
 
 export default function App() {
-  // const [contacts, setContacts] = useState(initialContacts);
   const [contacts, setContacts] = useState(() => {
     const savedData = localStorage.getItem("myContacts");
     return savedData ? JSON.parse(savedData) : initialContacts;
@@ -46,6 +46,7 @@ export default function App() {
         <Heading title="Phonebook" bottom tag={`h1`} />
         <ContactForm onAdd={addContact} />
         <SearchBox value={myFilter} onFilter={setMyFilter} />
+        <div>{contacts.length === 0 && <Notification />}</div>
         <ContactList contacts={visibleContacts} onDelete={deleteContact} />
         <Analytics />
       </Container>
