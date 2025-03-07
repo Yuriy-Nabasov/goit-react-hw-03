@@ -9,7 +9,7 @@ const UserSchema = Yup.object().shape({
     .max(50, "Must be 50 characters or less")
     .required("This field is required"),
   number: Yup.string()
-    .matches(/[0-9]{10}/, "Phone number incorrect!")
+    .matches(/[0-9]{7}/, "Phone number incorrect!")
     .required("This field is required"),
 });
 

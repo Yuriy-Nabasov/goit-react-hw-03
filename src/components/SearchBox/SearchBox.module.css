@@ -3,5 +3,6 @@
 }
 
 .label {
-  margin: 0;
+  font-weight: bold;
+  margin: 5px;
 }

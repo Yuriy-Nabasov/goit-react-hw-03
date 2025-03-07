@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Section from "../Section/Section";
 import Container from "../Container/Container";
 import Heading from "../Heading/Heading";
@@ -12,7 +12,12 @@ import { Analytics } from "@vercel/analytics/react";
 import "./App.css";
 
 export default function App() {
-  const [contacts, setContacts] = useState(initialContacts);
+  // const [contacts, setContacts] = useState(initialContacts);
+  const [contacts, setContacts] = useState(() => {
+    const savedData = localStorage.getItem("myContacts");
+    return savedData ? JSON.parse(savedData) : initialContacts;
+  });
+
   const [myFilter, setMyFilter] = useState("");
 
   const addContact = (newContact) => {
@@ -30,6 +35,10 @@ export default function App() {
   const visibleContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(myFilter.toLocaleLowerCase())
   );
+
+  useEffect(() => {
+    localStorage.setItem("myContacts", JSON.stringify(contacts));
+  }, [contacts]);
 
   return (
     <Section>
